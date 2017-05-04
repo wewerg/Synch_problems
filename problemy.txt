@@ -1,0 +1,7 @@
+1) Vecerajuci filozofi (nepouzite Tanenbaumove riesenie)
+2) Vecerajuci divosi
+3) Problem holica
+4) Problem fajciarov
+5) search-insert-delete
+6) unisex bathroom
+7) child care
