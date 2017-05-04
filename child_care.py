@@ -1,4 +1,4 @@
-from multiprocessing import Semaphore
+from multiprocessing import Semaphore,Lock
 import threading
 from time import sleep
 import logging
@@ -7,7 +7,7 @@ import os
 
 """jeden dospely musi mat max 3 deti"""
 
-mutex = Semaphore(1)
+mutex = Lock()
 multiplex = Semaphore(0)
 
 logging.basicConfig(level=logging.WARNING,
@@ -35,10 +35,10 @@ def adult(i):
 def child(i):
     logging.debug('Starting')
     while True:
-        multiplex.release()
-        print("som dieta {} a hram sa".format(i))
-        sleep(randint(1,3))
         multiplex.acquire()
+        print("som dieta {} a hram sa".format(i))
+        multiplex.release()
+        sleep(randint(1, 3))
     logging.debug('Stopping')
 
 
@@ -52,14 +52,13 @@ if __name__ == "__main__":
     for i in range(10):
         deticky.append(threading.Thread(target=child, args=(i,)))
 
-    for i in range(5):
+    for i in range(1):
         rodicia.append(threading.Thread(target=adult, args=(i,)))
 
     [rodic.start() for rodic in rodicia]
     [dieta.start() for dieta in deticky]
 
-    vlakno = threading.Thread(target=adult())
-    vlakno.start()
+
 
     #vlakno.join()
     #[dieta.join() for dieta in deticky]
