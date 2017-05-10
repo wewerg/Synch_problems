@@ -13,6 +13,7 @@ class Philosopher(threading.Thread):
         threading.Thread.__init__(self)
         self.index = index
 
+
     def run(self):
         leftForkIndex = self.index
         rightForkIndex = (self.index + 1) % numPhilosophers
@@ -27,7 +28,7 @@ class Philosopher(threading.Thread):
             print("Thinking {} philosoph".format(i))
             sleep(0.5)
             forkPair.get_forks()
-            print("Filozof je ", i)
+            print("Filozof papa  ", i)
             sleep(0.5)
             forkPair.put_forks()
 
