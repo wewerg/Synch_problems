@@ -27,11 +27,18 @@ deti = []
 asistentky = []
 vidlicky = []
 
+#pre divochov
+mutex = Lock()
+porcie = 3
+prazdnyKs = Semaphore()
+plnyKs = Semaphore(1)
 
 class Filozof(Thread):
     def __init__(self,index):
         Thread.__init__(self)
         self.index = index
+
+
 
     def run(self):
         leftForkIndex = self.index
@@ -48,8 +55,18 @@ class Filozof(Thread):
     def jedenie(self, i, forkPair):
         print("Thinking {} philosoph".format(i))
         sleep(0.5)
+        mutex.acquire()
+        global porcie
+        if porcie <= 0:
+            prazdnyKs.release()
+            plnyKs.acquire()
+            porcie = 10
+        porcie -=1
+
+        mutex.release()
+
         forkPair.get_forks()
-        print("Filozof je ", i)
+        print("Filozof {} je {} porciu".format(i,porcie))
         sleep(0.5)
         forkPair.put_forks()
 
@@ -103,6 +120,15 @@ class Kuchar(Thread):
         Thread.__init__(self)
         self.index = index
 
+    def run(self):
+        global porcie
+        while True:
+            prazdnyKs.acquire()
+            print("Vari sa")
+            sleep(5)
+            plnyKs.release()
+
+
 
 
 if __name__=="__main__":
@@ -114,8 +140,9 @@ if __name__=="__main__":
         vidlicky.append(Lock())
 
 
+
     print(filozofi)
     for filozof in filozofi:
         filozof.start()
 
-
+    Kuchar(0).start()

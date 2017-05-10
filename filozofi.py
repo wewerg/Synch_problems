@@ -3,16 +3,17 @@ from time import sleep
 import os
 
 numPhilosophers = 5
-
+porcie = 5
 philosophers = []
 forks = []
+mutex = Semaphore()
 
 
 class Philosopher(threading.Thread):
     def __init__(self, index):
         threading.Thread.__init__(self)
         self.index = index
-
+        global porcie
 
     def run(self):
         leftForkIndex = self.index
