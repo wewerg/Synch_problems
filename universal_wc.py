@@ -15,7 +15,6 @@ femaleLs = Lightswitch()
 maleS = Semaphore(3)
 femaleS =Semaphore(3)
 turniket = Semaphore(1)
-empty = Semaphore(1)
 
 def female(id):
     print("slecna {} pride do fronty".format(id))
