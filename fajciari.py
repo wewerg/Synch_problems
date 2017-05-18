@@ -134,8 +134,6 @@ if __name__=="__main__":
     Thread(target=pusherT).start()
     Thread(target=pusherZ).start()
 
-
-
     try:
         while True: sleep(0.1)
     except (KeyboardInterrupt,SystemExit):
